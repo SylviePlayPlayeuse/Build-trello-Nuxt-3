@@ -1,0 +1,50 @@
+{
+  "name": "task-board",
+  "columns": [
+    {
+      "name": "To do",
+      "tasks": [
+        {
+          "id": "797eaa11-efa5-4cfa-bce9-2afb938ee4a6",
+          "name": "Task #0",
+          "description": "This is a description of task 1"
+        },
+        {
+          "id": "bd16d0e2-ee0f-4992-8738-eab8840911d9",
+          "name": "Task #1",
+          "description": "This is a description of task 2"
+        }
+      ]
+    },
+    {
+      "name": "in-progress",
+      "tasks": [
+        {
+          "id": "0b54a946-883d-4606-a619-1f09bb2cda9c",
+          "name": "Task #2",
+          "description": "This is a description of task 1"
+        },
+        {
+          "id": "6793b964-3c4c-4e38-b35b-de84736fb12e",
+          "name": "Task #3",
+          "description": "This is a description of task 2"
+        }
+      ]
+    },
+    {
+      "name": "done",
+      "tasks": [
+        {
+          "id": "1cbfdda1-762d-4b35-89e0-5a25571881c7",
+          "name": "Task #4",
+          "description": "This is a description of task 1"
+        },
+        {
+          "id": "45a0afac-61cc-42dc-8cb2-29001fe8be65",
+          "name": "Task #5",
+          "description": "This is a description of task 2"
+        }
+      ]
+    }
+  ]
+}
