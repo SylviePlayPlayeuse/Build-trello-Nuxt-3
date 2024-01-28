@@ -5,6 +5,17 @@ import { useStorage } from "@vueuse/core";
 export const useBoardStore = defineStore('boardStore', () =>{
     const board = useStorage('board', boardData)
 
+    const getTask = computed(() => {
+        return (taskId: string) => {
+            for (const column of board.value.columns) {
+                const task = column.tasks.find(task => task.id === taskId)
+                if (task) {
+                    return task
+                }
+            }
+        }
+    })
+
     const addColumn = (columnName: string): void => {
         board.value.columns.push({
             name: columnName,
@@ -20,5 +31,6 @@ export const useBoardStore = defineStore('boardStore', () =>{
         addColumn,
         board,
         deleteColumn,
+        getTask,
     }
 })

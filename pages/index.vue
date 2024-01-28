@@ -2,10 +2,16 @@
 import { useBoardStore } from '@/stores/boardStore';
 
 const boardStore = useBoardStore();
+const route = useRoute();
 const router = useRouter();
 
 const editNameState = ref(false);
 const newColumnName = ref('');
+
+const isModalOpen = computed(() => {
+    return route.name === 'index-tasks-id'
+});
+
 const addColumn = () => {
     boardStore.addColumn(newColumnName.value);
     newColumnName.value = '';
@@ -18,6 +24,11 @@ const deleteColumn = (columnIndex) => {
 const goToPage = (id) => {
     router.push(`/tasks/${id}`);
 }
+
+const closeModal = () => {
+    router.push('/');
+}
+
 </script>
 
 <template>
@@ -70,5 +81,8 @@ const goToPage = (id) => {
                 />
             </UContainer>
         </main>
+        <div class="task-bg" v-show="isModalOpen" @click.self="closeModal">
+            <NuxtPage :key="route.fullPath"/>
+        </div>
     </div>
 </template>
