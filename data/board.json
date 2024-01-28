@@ -2,6 +2,7 @@
   "name": "task-board",
   "columns": [
     {
+      "id": "ef360abb-f581-4710-8555-a7d4c1cb606a",
       "name": "To do",
       "tasks": [
         {
@@ -17,6 +18,7 @@
       ]
     },
     {
+      "id": "bcf5323f-7dbe-48f6-b715-911cad6fd1fd",
       "name": "in-progress",
       "tasks": [
         {
@@ -32,6 +34,7 @@
       ]
     },
     {
+      "id": "4acd0f65-0ff9-4d1c-a11f-a11e04873566",
       "name": "done",
       "tasks": [
         {
