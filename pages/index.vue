@@ -5,7 +5,6 @@ const boardStore = useBoardStore();
 const route = useRoute();
 const router = useRouter();
 
-const editNameState = ref(false);
 const newColumnName = ref('');
 
 const isModalOpen = computed(() => {
@@ -17,14 +16,6 @@ const addColumn = () => {
     newColumnName.value = '';
 }
 
-const deleteColumn = (columnIndex) => {
-    boardStore.deleteColumn(columnIndex);
-}
-
-const goToPage = (id) => {
-    router.push(`/tasks/${id}`);
-}
-
 const closeModal = () => {
     router.push('/');
 }
@@ -34,43 +25,12 @@ const closeModal = () => {
 <template>
     <div class="board-wrapper">
         <main class="board">
-            <UContainer
+            <BoardColumn
                 v-for="(column, columnIndex) in boardStore.board.columns"
                 :key="column.id"
-                class="column"
-            >
-                <div class="column-header mb-4">
-                    <div>
-                        <UInput
-                            v-if="editNameState"
-                            type="text"
-                            v-model="column.name"
-                        />
-                        <h2 v-else>{{ column.name }}</h2>
-                    </div>
-                    <div class="mb-4">
-                        <UButton
-                            icon="i-heroicons-pencil-square"
-                            class="mr-1"
-                            @click="editNameState = !editNameState"
-                        />
-                        <UButton
-                            icon="i-heroicons-trash"
-                            color="red"
-                            @click="deleteColumn(columnIndex)"
-                        />
-                    </div>
-                </div>
-                <ul>
-                    <li v-for="task in column.tasks" :key="task.id">
-                        <UCard class="mb-4" @click="goToPage(task.id)">
-                            <strong>{{ task.name }}</strong>
-                            <p>{{ task.description }}</p>
-                        </UCard>
-                    </li>
-
-                </ul>
-            </UContainer>
+                :column="column"
+                :columnIndex="columnIndex"
+            />
             <UContainer class="column">
                 <UInput
                     v-model="newColumnName"
