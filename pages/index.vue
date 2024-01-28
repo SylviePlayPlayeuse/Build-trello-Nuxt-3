@@ -2,6 +2,7 @@
 import { useBoardStore } from '@/stores/boardStore';
 
 const boardStore = useBoardStore();
+const router = useRouter();
 
 const editNameState = ref(false);
 const newColumnName = ref('');
@@ -14,6 +15,9 @@ const deleteColumn = (columnIndex) => {
     boardStore.deleteColumn(columnIndex);
 }
 
+const goToPage = (id) => {
+    router.push(`/tasks/${id}`);
+}
 </script>
 
 <template>
@@ -48,7 +52,7 @@ const deleteColumn = (columnIndex) => {
                 </div>
                 <ul>
                     <li v-for="task in column.tasks" :key="task.id">
-                        <UCard class="mb-4">
+                        <UCard class="mb-4" @click="goToPage(task.id)">
                             <strong>{{ task.name }}</strong>
                             <p>{{ task.description }}</p>
                         </UCard>
