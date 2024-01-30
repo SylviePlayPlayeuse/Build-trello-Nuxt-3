@@ -5,11 +5,11 @@ const boardStore = useBoardStore();
 const route = useRoute();
 const router = useRouter();
 
-const newColumnName = ref('');
-
 const isModalOpen = computed(() => {
     return route.name === 'index-tasks-id'
 });
+
+const newColumnName = ref('');
 
 const addColumn = () => {
     boardStore.addColumn(newColumnName.value);
