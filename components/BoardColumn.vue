@@ -36,20 +36,40 @@ const goToPage = (id) => {
 const pickupTask = (event, { fromColumnIndex, fromTaskIndex }) => {
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.dropEffect = 'move';
-    event.dataTransfer.setData('from-column-index',fromColumnIndex);
+    event.dataTransfer.setData('from-column-index', fromColumnIndex);
     event.dataTransfer.setData('from-task-index', fromTaskIndex);
+    event.dataTransfer.setData('type', 'task');
 }
 
-const dropTask = (event, toColumnIndex) => {
+const dropItem = (event, toColumnIndex) => {
     event.preventDefault();
-    const columnIndex = event.dataTransfer.getData('from-column-index');
-    const taskIndex = event.dataTransfer.getData('from-task-index');
 
-    boardStore.moveTask({
-        taskIndex: taskIndex,
-        fromColumnIndex: columnIndex,
-        toColumnIndex: toColumnIndex,
-    });
+    const type = event.dataTransfer.getData('type');
+
+    if (type === 'task') {
+        const columnIndex = event.dataTransfer.getData('from-column-index');
+        const taskIndex = event.dataTransfer.getData('from-task-index');
+
+        boardStore.moveTask({
+            taskIndex: taskIndex,
+            fromColumnIndex: columnIndex,
+            toColumnIndex: toColumnIndex,
+        });
+    } else if (type === 'column') {
+        const fromColumnIndex = event.dataTransfer.getData('from-column-index');
+        boardStore.moveColumn({
+            fromColumnIndex: fromColumnIndex,
+            toColumnIndex: toColumnIndex,
+        });
+    }
+}
+
+const pickupColumn = (event, fromColumnIndex) => {
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.setData('type', 'column');
+    event.dataTransfer.setData('from-column-index', fromColumnIndex);
+
 }
 
 </script>
@@ -57,7 +77,9 @@ const dropTask = (event, toColumnIndex) => {
 <template>
     <UContainer
         class="column"
-        @drop.stop="dropTask($event, columnIndex)"
+        draggable="true"
+        @dragstart="pickupColumn($event, columnIndex)"
+        @drop.stop="dropItem($event, columnIndex)"
         @dragover.prevent
         @dragenter.prevent
     >
