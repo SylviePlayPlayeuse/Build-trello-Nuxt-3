@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import boardData from '@/data/board.json'
 import { useStorage } from '@vueuse/core'
 
-export const useBoardStore = defineStore('boardStore', () =>{
+export const useBoardStore = defineStore('boardStore', () => {
     const board = useStorage('board', boardData)
 
     const getTask = computed(() => {
@@ -50,6 +50,12 @@ export const useBoardStore = defineStore('boardStore', () =>{
         }
     }
 
+    const moveTask = ({ taskIndex, fromColumnIndex, toColumnIndex}: { taskIndex: number, fromColumnIndex: number, toColumnIndex: number }): void => {
+        const task = board.value.columns[fromColumnIndex].tasks.splice(taskIndex, 1)[0]
+        board.value.columns[toColumnIndex].tasks.push(task)
+    }
+
+
     return {
         addColumn,
         addTask,
@@ -57,5 +63,6 @@ export const useBoardStore = defineStore('boardStore', () =>{
         deleteColumn,
         deleteTask,
         getTask,
+        moveTask,
     }
 })

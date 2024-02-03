@@ -32,10 +32,35 @@ const deleteColumn = (columnIndex) => {
 const goToPage = (id) => {
     router.push(`/tasks/${id}`);
 }
+
+const pickupTask = (event, { fromColumnIndex, fromTaskIndex }) => {
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.setData('from-column-index',fromColumnIndex);
+    event.dataTransfer.setData('from-task-index', fromTaskIndex);
+}
+
+const dropTask = (event, toColumnIndex) => {
+    event.preventDefault();
+    const columnIndex = event.dataTransfer.getData('from-column-index');
+    const taskIndex = event.dataTransfer.getData('from-task-index');
+
+    boardStore.moveTask({
+        taskIndex: taskIndex,
+        fromColumnIndex: columnIndex,
+        toColumnIndex: toColumnIndex,
+    });
+}
+
 </script>
 
 <template>
-    <UContainer class="column">
+    <UContainer
+        class="column"
+        @drop.stop="dropTask($event, columnIndex)"
+        @dragover.prevent
+        @dragenter.prevent
+    >
         <div class="column-header mb-4">
             <div>
                 <UInput
@@ -59,8 +84,16 @@ const goToPage = (id) => {
             </div>
         </div>
         <ul>
-            <li v-for="task in column.tasks" :key="task.id">
-                <UCard class="mb-4" @click="goToPage(task.id)">
+            <li v-for="(task, taskIndex) in column.tasks" :key="task.id">
+                <UCard
+                    class="mb-4"
+                    draggable="true"
+                    @click="goToPage(task.id)"
+                    @dragstart="pickupTask($event, {
+                        fromTaskIndex: taskIndex,
+                        fromColumnIndex: columnIndex,
+                    })"
+                >
                     <strong>{{ task.name }}</strong>
                     <p>{{ task.description }}</p>
                 </UCard>
