@@ -12,6 +12,7 @@
   "devDependencies": {
     "@types/uuid": "^9.0.8",
     "nuxt": "^3.9.1",
+    "sass": "^1.70.0",
     "vue": "^3.4.10",
     "vue-router": "^4.2.5"
   },

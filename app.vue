@@ -3,6 +3,7 @@
          <div>
              <NuxtPage />
          </div>
+     <UNotifications />
      </Html>
 </template>
  <script setup lang="ts">

@@ -131,3 +131,10 @@ const pickupColumn = (event, fromColumnIndex) => {
         />
     </UContainer>
 </template>
+
+
+<style lang="scss">
+.column {
+    min-width: 340px;
+}
+</style>
