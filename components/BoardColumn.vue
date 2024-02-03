@@ -41,19 +41,18 @@ const pickupTask = (event, { fromColumnIndex, fromTaskIndex }) => {
     event.dataTransfer.setData('type', 'task');
 }
 
-const dropItem = (event, toColumnIndex) => {
-    event.preventDefault();
-
+const dropItem = (event, { toColumnIndex, toTaskIndex }) => {
     const type = event.dataTransfer.getData('type');
+    const fromColumnIndex = event.dataTransfer.getData('from-column-index');
 
     if (type === 'task') {
-        const columnIndex = event.dataTransfer.getData('from-column-index');
-        const taskIndex = event.dataTransfer.getData('from-task-index');
+        const fromTaskIndex = event.dataTransfer.getData('from-task-index');
 
         boardStore.moveTask({
-            taskIndex: taskIndex,
-            fromColumnIndex: columnIndex,
-            toColumnIndex: toColumnIndex,
+            fromTaskIndex,
+            toTaskIndex,
+            fromColumnIndex,
+            toColumnIndex,
         });
     } else if (type === 'column') {
         const fromColumnIndex = event.dataTransfer.getData('from-column-index');
@@ -78,8 +77,8 @@ const pickupColumn = (event, fromColumnIndex) => {
     <UContainer
         class="column"
         draggable="true"
-        @dragstart="pickupColumn($event, columnIndex)"
-        @drop.stop="dropItem($event, columnIndex)"
+        @dragstart.self="pickupColumn($event, columnIndex)"
+        @drop.stop="dropItem($event, { toColumnIndex: columnIndex})"
         @dragover.prevent
         @dragenter.prevent
     >
@@ -115,6 +114,7 @@ const pickupColumn = (event, fromColumnIndex) => {
                         fromTaskIndex: taskIndex,
                         fromColumnIndex: columnIndex,
                     })"
+                    @drop.stop="dropItem($event, { toColumnIndex: columnIndex, toTaskIndex: taskIndex })"
                 >
                     <strong>{{ task.name }}</strong>
                     <p>{{ task.description }}</p>
